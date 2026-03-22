@@ -1,0 +1,55 @@
+﻿@model MvcPracticaCubosFinal.Dtos.UsuarioRegisterDto
+
+@{
+    ViewData["Title"] = "Registro de Usuario";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h3 class="mb-0 fw-bold"> Crear Cuenta</h3>
+            </div>
+            <div class="card-body p-4">
+
+                <form asp-controller="Managed" asp-action="Register" method="post" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label fw-bold">Nombre Completo</label>
+                        <input asp-for="Nombre" class="form-control" placeholder="Ej: Juan Pérez" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-bold">Correo Electrónico</label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="usuario@email.com" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label fw-bold">Contraseña</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="********" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Foto" class="form-label fw-bold">Foto de Perfil (Opcional)</label>
+                        <input asp-for="Foto" type="file" class="form-control" accept="image/*" />
+                        <small class="text-muted">Formatos recomendados: JPG, PNG.</small>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg fw-bold shadow-sm">
+                            Registrarse
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="card-footer text-center py-3 bg-light">
+                <span class="text-muted">¿Ya tienes cuenta?</span>
+                <a asp-controller="Managed" asp-action="Login" class="text-primary fw-bold text-decoration-none ms-1">
+                    Inicia Sesión aquí
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿    @model CuboDto
+
+    @{
+        ViewData["Title"] = "Editar Cubo";
+    }
+
+    <h1>Editar Cubo</h1>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="IdCubo"  class="form-label">ID Cubo</label>
+            <input asp-for="IdCubo"  class="form-control" type="number"  readonly />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Modelo" class="form-label"></label>
+            <input asp-for="Modelo" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Marca" class="form-label"></label>
+            <input asp-for="Marca" class="form-control" type="text" />
+        </div>
+
+        <div class="mb-3">
+            <label>Imagen</label>
+            <input asp-for="ImagenFile" type="file" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Precio" class="form-label"></label>
+            <input asp-for="Precio" class="form-control" type="number" />
+        </div>
+        <div>
+            <img src="~/images/@Model.Imagen" alt="Imagen de @Model.Nombre" class="img-thumbnail" style="max-width: 80px; max-height: 80px; object-fit: contain;" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>

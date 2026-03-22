@@ -1,0 +1,35 @@
+﻿@model Usuario
+
+<div class="d-flex align-items-center">
+    @if (Model != null)
+    {
+
+        @if (!string.IsNullOrEmpty(Model.Foto))
+        {
+            <img src="~/images/@Model.Foto" alt="Avatar" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;" />
+        }
+        else
+        {
+            <span class="fs-4 me-2">👤</span>
+        }
+
+        <a class="nav-link text-dark" asp-area="" asp-controller="CarritoCompra" asp-action="Index"> Ver Carrito</a>
+
+
+        <span class="me-3 fw-bold text-primary">Hola, @Model.Nombre</span>
+
+        <a asp-controller="Managed" asp-action="Logout" class="btn btn-sm btn-outline-danger shadow-sm">
+            Cerrar Sesión
+        </a>
+    }
+    else
+    {
+
+        <a asp-controller="Managed" asp-action="Login" class="btn btn-sm btn-primary me-2 shadow-sm">
+            Iniciar Sesión
+        </a>
+        <a asp-controller="Managed" asp-action="Register" class="btn btn-sm btn-outline-secondary shadow-sm">
+            Registrarse
+        </a>
+    }
+</div>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MvcPracticaCubosFinal.Models.Cubo>
+
+@{
+    ViewData["Title"] = "Catálogo de Cubos";
+}
+
+<div class="container mt-4">
+    <div class="row mb-3 align-items-center">
+        <div class="col-sm-8">
+            <h1 class="display-6 fw-bold text-primary">Catálogo de Cubos</h1>
+        </div>
+        <div class="col-sm-4 text-end">
+            <a asp-action="Create" class="btn btn-success shadow-sm">
+                ➕ Crear Nuevo
+            </a>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-striped table-bordered align-middle mb-0">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdCubo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Modelo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Marca)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Imagen)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Precio)
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MvcPracticaCubosFinal.Models.Cubo item in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold">
+                            @Html.DisplayFor(modelItem => item.IdCubo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-info text-dark">
+                                @Html.DisplayFor(modelItem => item.Modelo)
+                            </span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Marca)
+                        </td>
+                        <td class="text-center">
+                            <img src="~/images/@item.Imagen" alt="Imagen de @item.Nombre" class="img-thumbnail" style="max-width: 80px; max-height: 80px; object-fit: contain;" />
+                        </td>
+                        <td class="text-end text-success fw-bold">
+                            @Html.DisplayFor(modelItem => item.Precio) €
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group" role="group" aria-label="Acciones de Cubo">
+                                <a asp-controller="CarritoCompra" asp-action="AddToCart" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-success">Añadir al carrito</a>
+                                <a asp-controller="Cubos" asp-action="Edit" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a asp-controller="Cubos" asp-action="Details" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-secondary">Detalles</a>
+                                <a asp-controller="Cubos" asp-action="Delete" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-danger">Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

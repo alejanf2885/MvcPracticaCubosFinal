@@ -1,0 +1,99 @@
+﻿@model List<MvcPracticaCubosFinal.Dtos.CuboCarritoDto>
+
+@{
+    ViewData["Title"] = "Mi Carrito";
+
+    // Calculamos el total de forma limpia llamando a la nueva propiedad del modelo
+    int precioTotal = 0;
+
+    // Comprobamos que el modelo no sea nulo y tenga elementos antes de sumar
+    if (Model != null && Model.Any())
+    {
+        precioTotal = Model.Sum(item => item.Subtotal);
+    }
+}
+
+<div class="container mt-4">
+    <div class="row mb-3 align-items-center">
+        <div class="col-sm-8">
+            <h1 class="display-6 fw-bold text-primary">🛒 Mi Carrito de la Compra</h1>
+        </div>
+        <div class="col-sm-4 text-end">
+            <a asp-controller="Cubos" asp-action="Index" class="btn btn-outline-primary shadow-sm">
+                Seguir Comprando
+            </a>
+        </div>
+    </div>
+
+    @* COMPROBACIÓN: Si está vacío, mostramos un mensaje. Si no, mostramos la tabla. *@
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center shadow-sm p-5" role="alert">
+            <h4 class="alert-heading mb-3">Tu carrito está vacío</h4>
+            <p>Aún no has añadido ningún cubo a tu carrito. ¡Echa un vistazo a nuestro catálogo!</p>
+            <a asp-controller="Cubos" asp-action="Index" class="btn btn-primary mt-2">Ir al Catálogo</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover table-striped table-bordered align-middle mb-0">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>Cubo</th>
+                        <th>Detalles</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MvcPracticaCubosFinal.Dtos.CuboCarritoDto item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <img src="~/images/@item.Cubo.Imagen" alt="Imagen de @item.Cubo.Nombre" class="img-thumbnail" style="max-width: 80px;" />
+                            </td>
+                            <td>
+                                <strong class="d-block text-primary">@item.Cubo.Nombre</strong>
+                                <span class="badge bg-secondary">@item.Cubo.Marca</span>
+                            </td>
+                            <td class="text-end fw-bold text-success">
+                                @item.Cubo.Precio €
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a asp-action="RemoveOne" asp-route-id="@item.Cubo.IdCubo" class="btn btn-sm btn-outline-warning fw-bold px-2 py-0">-</a>
+                                    <span class="mx-3 fw-bold fs-5">@item.Cantidad</span>
+                                    <a asp-action="AddToCart" asp-route-id="@item.Cubo.IdCubo" class="btn btn-sm btn-outline-success fw-bold px-2 py-0">+</a>
+                                </div>
+                            </td>
+                            <td class="text-end fw-bold text-primary">
+                                @item.Subtotal €
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="RemoveFromCart" asp-route-id="@item.Cubo.IdCubo" class="btn btn-sm btn-danger shadow-sm">
+                                    🗑️ Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot class="table-light">
+                    <tr>
+                        <td colspan="4" class="text-end fs-5"><strong>Total a pagar:</strong></td>
+                        <td class="text-end fw-bold text-danger fs-4">
+                            @precioTotal €
+                        </td>
+                        <td class="text-center">
+                            <a asp-controller="Compra" asp-action="Compra" class="btn btn-success fw-bold shadow-sm w-100">
+                                Pagar Ahora 💳
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+</div>
