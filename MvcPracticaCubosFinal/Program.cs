@@ -17,11 +17,14 @@ builder.Services.AddTransient<UsuarioRepository>();
 builder.Services.AddTransient<CompraRepository>();
 
 builder.Services.AddScoped<IAuthorizationHandler, HasComprasHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, HasFavoritosHandler>();
 builder.Services.AddAuthorization(options =>
 {
 
     options.AddPolicy("HasCompras", policy =>
         policy.AddRequirements(new HasComprasRequirement()));
+    options.AddPolicy("HasFavoritos", policy =>
+       policy.AddRequirements(new HasFavoritosRequirement()));
 });
 
 // ─── BASE DE DATOS ─────────────────────────────────────────────

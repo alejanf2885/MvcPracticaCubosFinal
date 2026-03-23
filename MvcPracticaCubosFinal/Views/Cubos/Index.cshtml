@@ -1,7 +1,13 @@
 ﻿@model IEnumerable<MvcPracticaCubosFinal.Models.Cubo>
+@using Microsoft.Extensions.Caching.Memory
+@inject IMemoryCache MemoryCache
 
 @{
     ViewData["Title"] = "Catálogo de Cubos";
+
+    List<Cubo> cubos = MemoryCache.Get<List<Cubo>>("FAVORITOS");
+
+
 }
 
 <div class="container mt-4">
@@ -67,6 +73,17 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group" role="group" aria-label="Acciones de Cubo">
+
+                                @if(cubos != null && cubos.Any(c => c.IdCubo == item.IdCubo))
+                                {
+                                    <span class="badge bg-warning text-dark">Favorito</span>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Favoritos" asp-action="AddFavorito" asp-route-id="@item.IdCubo" class="btn btn-sm"><i class="bi bi-star"></i> Añadir a Favoritos</a>
+                                }
+
+
                                 <a asp-controller="CarritoCompra" asp-action="AddToCart" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-success">Añadir al carrito</a>
                                 <a asp-controller="Cubos" asp-action="Edit" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-primary">Editar</a>
                                 <a asp-controller="Cubos" asp-action="Details" asp-route-id="@item.IdCubo" class="btn btn-sm btn-outline-secondary">Detalles</a>

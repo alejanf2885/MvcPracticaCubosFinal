@@ -1,0 +1,73 @@
+﻿@model List<Cubo>
+
+@{
+    ViewData["Title"] = "Mis Favoritos";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2><i class="bi bi-star-fill text-warning"></i> Mis Cubos Favoritos</h2>
+        <a asp-controller="Cubo" asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a la Tienda
+        </a>
+    </div>
+    <p class="text-muted">Estos cubos se mantienen en la memoria caché del servidor.</p>
+    <hr />
+
+    @* 1. Verificación de seguridad para evitar errores si la caché está vacía *@
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-light border shadow-sm text-center py-5">
+            <i class="bi bi-emoji-frown fs-1 text-muted"></i>
+            <p class="mt-3">No tienes ningún cubo en tu lista de favoritos todavía.</p>
+            <a asp-controller="Cubo" asp-action="Index" class="btn btn-primary">
+                Ir a buscar cubos
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (Cubo cubo in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-warning">
+                        @* Imagen del producto *@
+                        <div class="text-center p-3">
+                            @if (!string.IsNullOrEmpty(cubo.Imagen))
+                            {
+                                <img src="~/images/@cubo.Imagen" class="card-img-top" alt="@cubo.Nombre" style="max-height: 160px; width: auto; object-fit: contain;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">Sin imagen</span>
+                            }
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">@cubo.Nombre</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Marca:</strong> @cubo.Marca</li>
+                                <li><strong>Modelo:</strong> @cubo.Modelo</li>
+                                <li><strong>Precio:</strong> <span class="badge bg-success">@cubo.Precio €</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-footer bg-transparent border-top-0 d-grid gap-2">
+                            <a asp-controller="Cubo" asp-action="Details" asp-route-id="@cubo.IdCubo" class="btn btn-info btn-sm text-white">
+                                <i class="bi bi-eye"></i> Detalles
+                            </a>
+
+                            <a asp-controller="Favoritos"
+                               asp-action="Delete"
+                               asp-route-id="@cubo.IdCubo"
+                               class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Quitar de Favoritos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
